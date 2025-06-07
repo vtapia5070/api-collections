@@ -45,6 +45,13 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## API Documentation
+
+When the service is running locally, you can access the Swagger documentation at:
+
+- Swagger UI: http://localhost:3000/api
+- OpenAPI JSON: http://localhost:3000/api-json
+
 ## Test
 
 ```bash
