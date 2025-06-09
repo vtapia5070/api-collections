@@ -6,7 +6,9 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  output   = "../../../node_modules/.prisma/client"
+  // https://stackoverflow.com/questions/76006609/ts2305-module-prisma-client-has-no-exported-member-user/78139882
+  // docs also suggest this on v10: https://docs.nestjs.com/recipes/prisma
 }
 
 datasource db {
