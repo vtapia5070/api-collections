@@ -4,6 +4,7 @@ import {
   ApiOperation,
   ApiOkResponse,
   getSchemaPath,
+  ApiBadRequestResponse,
 } from '@nestjs/swagger';
 import { CatsService } from './cats.service';
 import { CatDto } from './dto/cat.dto';
@@ -39,7 +40,8 @@ export class CatsController {
       },
     },
   })
-  findAll(
+  @ApiBadRequestResponse({ description: 'Invalid query parameters' })
+  async findAll(
     @Query() query: FindAllCatsDto,
   ): Promise<{ data: CatDto[]; total: number; page: number; limit: number }> {
     return this.catsService.findAll(query);
