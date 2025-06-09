@@ -26,44 +26,95 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+## Prerequisites
+
+- Docker and Docker Compose
+- Node.js and npm
+
+## Quick Start
+
+1. Install dependencies:
 
 ```bash
 $ npm install
 ```
 
-## Running the app
+2. Set up environment:
 
 ```bash
-# development
-$ npm run start
+# Copy example environment file and modify if needed
+cp .env.example .env
+```
 
-# watch mode
-$ npm run start:dev
+3. Start the database and run migrations:
 
-# production mode
-$ npm run start:prod
+```bash
+# Start PostgreSQL in Docker
+npm run db:start
+
+# Generate Prisma client and run migrations
+npm run prisma:generate
+npm run prisma:migrate:dev
+```
+
+4. Start the service:
+
+```bash
+npm run start:dev
+```
+
+The API will be available at `http://localhost:3000`.
+
+## Database Management
+
+Common database operations:
+
+```bash
+# Start database
+npm run db:start
+
+# Stop database
+npm run db:stop
+
+# View database logs
+npm run db:logs
+
+# Reset database (deletes all data)
+npm run db:reset
+
+# Seed database with sample data
+npm run db:seed
+
+# Open Prisma Studio (database GUI)
+npm run prisma:studio
 ```
 
 ## API Documentation
 
-When the service is running locally, you can access the Swagger documentation at:
+When the service is running, access the Swagger documentation at:
 
 - Swagger UI: http://localhost:3000/api
 - OpenAPI JSON: http://localhost:3000/api-json
 
-## Test
+## Development Scripts
 
 ```bash
-# unit tests
-$ npm run test
+# Run in development with watch mode
+npm run start:dev
 
-# e2e tests
-$ npm run test:e2e
+# Run tests
+npm run test
 
-# test coverage
-$ npm run test:cov
+# Run e2e tests
+npm run test:e2e
+
+# Check code style
+npm run lint
 ```
+
+## License
+
+[MIT licensed](LICENSE)
 
 ## Support
 
