@@ -78,3 +78,44 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Database Setup
+
+Prerequisites:
+
+- Docker and Docker Compose installed
+- Node.js and npm installed
+
+1. Start the PostgreSQL container:
+
+```bash
+# Start the database
+docker compose up -d
+
+# Check if the container is running
+docker compose ps
+```
+
+2. Set up environment variables:
+
+   - Copy `.env.example` to `.env`
+   - Update the values if you've modified the default Docker Compose configuration
+
+3. Set up the database and run migrations:
+
+```bash
+# Generate Prisma Client
+npm run prisma:generate
+
+# Create and apply migrations
+npm run prisma:migrate:dev
+```
+
+> **Docker Commands**:
+>
+> - Start database: `docker compose up -d`
+> - Stop database: `docker compose down`
+> - View logs: `docker compose logs -f postgres`
+> - Reset database: `docker compose down -v && docker compose up -d`
+
+## Using Prisma Studio (optional)
