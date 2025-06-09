@@ -1,10 +1,16 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { CatDto } from './cats/dto/cat.dto';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true, // enable class-transformer
+    }),
+  );
 
   const config = new DocumentBuilder()
     .setTitle('Meow Service')
