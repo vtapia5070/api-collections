@@ -1,5 +1,10 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiOkResponse,
+  getSchemaPath,
+} from '@nestjs/swagger';
 import { CatsService } from './cats.service';
 import { CatDto } from './dto/cat.dto';
 import { FindAllCatsDto } from './dto/find-all-cats.dto';
@@ -11,14 +16,13 @@ export class CatsController {
 
   @Get()
   @ApiOperation({ summary: 'Get all cats' })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Returns a paginated list of cats',
     schema: {
       properties: {
         data: {
           type: 'array',
-          items: { $ref: '#/components/schemas/CatDto' },
+          items: { $ref: getSchemaPath(CatDto) },
         },
         total: {
           type: 'number',
@@ -35,7 +39,9 @@ export class CatsController {
       },
     },
   })
-  findAll(@Query() query: FindAllCatsDto) {
+  findAll(
+    @Query() query: FindAllCatsDto,
+  ): Promise<{ data: CatDto[]; total: number; page: number; limit: number }> {
     return this.catsService.findAll(query);
   }
 }
