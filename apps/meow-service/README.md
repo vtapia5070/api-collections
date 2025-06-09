@@ -82,6 +82,9 @@ npm run db:logs
 # Reset database (deletes all data)
 npm run db:reset
 
+# Seed database with sample data
+npm run db:seed
+
 # Open Prisma Studio (database GUI)
 npm run prisma:studio
 ```
