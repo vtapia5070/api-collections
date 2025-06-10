@@ -1,14 +1,16 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
   ApiOkResponse,
   getSchemaPath,
   ApiBadRequestResponse,
+  ApiCreatedResponse,
 } from '@nestjs/swagger';
 import { CatsService } from './cats.service';
 import { CatDto } from './dto/cat.dto';
 import { FindAllCatsDto } from './dto/find-all-cats.dto';
+import { CreateCatDto } from './dto/create-cat.dto';
 
 @ApiTags('cats')
 @Controller('cats')
@@ -45,5 +47,12 @@ export class CatsController {
     @Query() query: FindAllCatsDto,
   ): Promise<{ data: CatDto[]; total: number; page: number; limit: number }> {
     return this.catsService.findAll(query);
+  }
+
+  @Post()
+  @ApiCreatedResponse({ description: 'Cat created', type: CatDto })
+  @ApiBadRequestResponse({ description: 'Invalid input' })
+  async create(@Body() createCatDto: CreateCatDto): Promise<CatDto> {
+    return this.catsService.create(createCatDto);
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CatDto } from './dto/cat.dto';
 import { FindAllCatsDto } from './dto/find-all-cats.dto';
+import { CreateCatDto } from './dto/create-cat.dto';
 
 @Injectable()
 export class CatsService {
@@ -46,5 +47,10 @@ export class CatsService {
       page,
       limit,
     };
+  }
+
+  async create(createCatDto: CreateCatDto): Promise<CatDto> {
+    const cat = await this.prisma.cat.create({ data: createCatDto });
+    return cat;
   }
 }
