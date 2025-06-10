@@ -61,4 +61,45 @@ describe('CatsController (e2e)', () => {
     expect(response.body.statusCode).toBe(400);
     expect(response.body.message).toBeDefined();
   });
+
+  it('/cats (POST) should create a new cat', async () => {
+    const newCat = {
+      name: 'Whiskers',
+      age: 2,
+      breed: 'Tabby',
+      imageUrl: 'http://example.com/cat.jpg',
+    };
+    jest.spyOn(catsService, 'create').mockResolvedValueOnce({
+      id: 'some-uuid',
+      ...newCat,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+    const response = await request(app.getHttpServer())
+      .post('/cats')
+      .send(newCat)
+      .expect(201);
+    expect(response.body).toHaveProperty('id');
+    expect(response.body.name).toBe(newCat.name);
+    expect(response.body.breed).toBe(newCat.breed);
+    expect(response.body.age).toBe(newCat.age);
+    expect(response.body.imageUrl).toBe(newCat.imageUrl);
+    expect(response.body).toHaveProperty('createdAt');
+    expect(response.body).toHaveProperty('updatedAt');
+  });
+
+  it('/cats (POST) should return 400 for invalid input', async () => {
+    const invalidCat = {
+      name: '', // name is required and should be a non-empty string
+      breed: '', // breed is required and should be a non-empty string
+      age: -1, // invalid age
+      imageUrl: 'not-a-url', // invalid url
+    };
+    const response = await request(app.getHttpServer())
+      .post('/cats')
+      .send(invalidCat)
+      .expect(400);
+    expect(response.body.statusCode).toBe(400);
+    expect(response.body.message).toBeDefined();
+  });
 });
