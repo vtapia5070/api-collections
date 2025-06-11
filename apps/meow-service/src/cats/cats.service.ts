@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CatDto } from './dto/cat.dto';
 import { FindAllCatsDto } from './dto/find-all-cats.dto';
 import { CreateCatDto } from './dto/create-cat.dto';
+import { UpdateCatDto } from './dto/update-cat.dto';
 
 @Injectable()
 export class CatsService {
@@ -51,6 +52,14 @@ export class CatsService {
 
   async create(createCatDto: CreateCatDto): Promise<CatDto> {
     const cat = await this.prisma.cat.create({ data: createCatDto });
+    return cat;
+  }
+
+  async update(id: string, updateCatDto: UpdateCatDto): Promise<CatDto> {
+    const cat = await this.prisma.cat.update({
+      where: { id },
+      data: updateCatDto,
+    });
     return cat;
   }
 }
