@@ -62,4 +62,11 @@ export class CatsService {
     });
     return cat;
   }
+
+  async delete(id: string): Promise<CatDto> {
+    const cat = await this.prisma.cat.delete({
+      where: { id },
+    });
+    return cat;
+  }
 }

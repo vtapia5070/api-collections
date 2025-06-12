@@ -3,12 +3,19 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { CatDto } from './cats/dto/cat.dto';
+import { PrismaExceptionFilter } from './common/filters/prisma-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Global filters
+  app.useGlobalFilters(new PrismaExceptionFilter());
+
+  // Global pipes
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true, // enable class-transformer
+      whitelist: true,
     }),
   );
 

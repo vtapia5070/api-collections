@@ -6,6 +6,7 @@ import {
   Param,
   Body,
   Post,
+  Delete,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -77,5 +78,13 @@ export class CatsController {
     @Body() updateCatDto: UpdateCatDto,
   ): Promise<CatDto> {
     return this.catsService.update(id, updateCatDto);
+  }
+
+  @Delete(':id')
+  @ApiParam({ name: 'id', description: 'Cat ID' })
+  @ApiOkResponse({ description: 'Cat deleted', type: CatDto })
+  @ApiNotFoundResponse({ description: 'Cat not found' })
+  async delete(@Param('id') id: string): Promise<CatDto> {
+    return this.catsService.delete(id);
   }
 }
