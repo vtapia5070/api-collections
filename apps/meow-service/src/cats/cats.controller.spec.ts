@@ -102,4 +102,49 @@ describe('CatsController (e2e)', () => {
     expect(response.body.statusCode).toBe(400);
     expect(response.body.message).toBeDefined();
   });
+
+  it('/cats/:id (PATCH) should update a cat', async () => {
+    const id = 'cat-uuid';
+    const updateData = { name: 'Updated Name', age: 5 };
+    const updatedCat = {
+      id,
+      name: 'Updated Name',
+      age: 5,
+      breed: 'Tabby',
+      imageUrl: 'http://example.com/cat.jpg',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    jest.spyOn(catsService, 'update').mockResolvedValueOnce(updatedCat);
+    const response = await request(app.getHttpServer())
+      .patch(`/cats/${id}`)
+      .send(updateData)
+      .expect(200);
+    expect(response.body.id).toBe(id);
+    expect(response.body.name).toBe(updateData.name);
+    expect(response.body.age).toBe(updateData.age);
+  });
+
+  it('/cats/:id (PATCH) should return 404 if cat not found', async () => {
+    const id = 'not-found-uuid';
+    jest.spyOn(catsService, 'update').mockImplementationOnce(() => {
+      const error: any = new Error('Cat not found');
+      error.status = 404;
+      throw error;
+    });
+    const response = await request(app.getHttpServer())
+      .patch(`/cats/${id}`)
+      .send({ name: 'Does not matter' })
+      .expect(404);
+    expect(response.body.statusCode).toBe(404);
+  });
+
+  it('/cats/:id (PATCH) should return 400 for invalid input', async () => {
+    const id = 'cat-uuid';
+    const response = await request(app.getHttpServer())
+      .patch(`/cats/${id}`)
+      .send({ age: -10 })
+      .expect(400);
+    expect(response.body.statusCode).toBe(400);
+  });
 });
