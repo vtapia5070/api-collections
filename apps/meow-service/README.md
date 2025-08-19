@@ -63,7 +63,7 @@ npm run prisma:migrate:dev
 npm run start:dev
 ```
 
-The API will be available at `http://localhost:3000`.
+The API will be available at `http://localhost:3001`.
 
 ## Database Management
 
@@ -93,8 +93,8 @@ npm run prisma:studio
 
 When the service is running, access the Swagger documentation at:
 
-- Swagger UI: http://localhost:3000/api
-- OpenAPI JSON: http://localhost:3000/api-json
+- Swagger UI: http://localhost:3001/api
+- OpenAPI JSON: http://localhost:3001/api-json
 
 ## Development Scripts
 
